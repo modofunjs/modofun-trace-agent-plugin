@@ -12,7 +12,7 @@ require('@google-cloud/trace-agent').start({
   });
 ```
 
-This will enable tracing of all requests on Google Cloud Stackdriver Trace when using modofun.
+This will enable tracing of all requests on Google Cloud Stackdriver Trace.
 
 ## Installation
 
