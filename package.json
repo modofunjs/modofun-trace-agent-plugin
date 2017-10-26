@@ -1,0 +1,34 @@
+{
+  "name": "modofun-trace-agent-plugin",
+  "description": "Modofun plugin for the Google Cloud Stackdriver Trace agent",
+  "version": "0.1.0",
+  "author": "Filipe Tavares",
+  "license": "MIT",
+  "repository": "fptavares/modofun-trace-agent-plugin",
+  "homepage": "https://github.com/fptavares/modofun-trace-agent-plugin",
+  "keywords": [
+    "serverless",
+    "microservices",
+    "nanoservices",
+    "google-cloud",
+    "cloud",
+    "functions",
+    "trace",
+    "agent",
+    "stackdriver"
+  ],
+  "engines": {
+    "node": ">= 6.10"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "index.js"
+  ],
+  "scripts": {
+    "test": "eslint index.js"
+  },
+  "devDependencies": {
+    "eslint": "^4.9.0"
+  }
+}
