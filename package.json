@@ -1,7 +1,7 @@
 {
   "name": "modofun-trace-agent-plugin",
   "description": "Modofun plugin for the Google Cloud Stackdriver Trace agent",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "author": "Filipe Tavares",
   "license": "MIT",
   "repository": "fptavares/modofun-trace-agent-plugin",
