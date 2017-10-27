@@ -77,7 +77,7 @@ module.exports = [
       var middleware = createMiddleware(api);
       var newMF = modofunWrap(modofun, middleware);
       newMF.gcloud = modofunWrap(modofun.gcloud, middleware);
-      newMF.aws = modofunWrap(modofun.aws, middleware);
+      newMF.aws = modofun.aws;
       newMF.arity = modofun.arity
       return newMF;
     }
