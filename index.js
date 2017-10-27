@@ -6,37 +6,34 @@
 var SUPPORTED_VERSIONS = '0.x';
 
 function createMiddleware(api) {
+  var labels = api.labels;
   return function middleware(req, res, next) {
     var options = {
       name: req.path,
-      url: req.originalUrl || req.path,
-      traceContext: req.headers[api.constants.TRACE_CONTEXT_HEADER_NAME.toLowerCase()],
+      traceContext: req.get(api.constants.TRACE_CONTEXT_HEADER_NAME),
+      url: req.originalUrl,
       skipFrames: 3
     };
-    api.runInRootSpan(options, function(root) {
+    api.runInRootSpan(options, function(rootSpan) {
       // Set response trace context.
       var responseTraceContext =
-        api.getResponseTraceContext(options.traceContext, !!root);
+        api.getResponseTraceContext(options.traceContext, !!rootSpan);
       if (responseTraceContext) {
-        res.setHeader(api.constants.TRACE_CONTEXT_HEADER_NAME, responseTraceContext);
+        res.set(api.constants.TRACE_CONTEXT_HEADER_NAME, responseTraceContext);
       }
 
-      if (!root) {
-        return next();
+      if (!rootSpan) {
+        next();
+        return;
       }
 
       api.wrapEmitter(req);
       api.wrapEmitter(res);
 
-      var url = req.originalUrl || req.path;
-
-      // we use the path part of the url as the span name and add the full
-      // url as a label
-      root.addLabel(api.labels.HTTP_METHOD_LABEL_KEY, req.method);
-      root.addLabel(api.labels.HTTP_URL_LABEL_KEY, url);
-      if (req.connection) {
-        root.addLabel(api.labels.HTTP_SOURCE_IP, req.connection.remoteAddress);
-      }
+      var url = req.protocol + '://' + req.hostname + req.originalUrl;
+      rootSpan.addLabel(labels.HTTP_METHOD_LABEL_KEY, req.method);
+      rootSpan.addLabel(labels.HTTP_URL_LABEL_KEY, url);
+      rootSpan.addLabel(labels.HTTP_SOURCE_IP, req.connection.remoteAddress);
 
       // wrap end
       var originalEnd = res.end;
@@ -45,12 +42,10 @@ function createMiddleware(api) {
         var returned = res.end.apply(this, arguments);
 
         if (req.route && req.route.path) {
-          root.addLabel('modofun/request.route.path', req.route.path);
+          rootSpan.addLabel('modofun/request.route.path', req.route.path);
         }
-
-        root.addLabel(api.labels.HTTP_RESPONSE_CODE_LABEL_KEY, res.statusCode);
-        root.endSpan();
-
+        rootSpan.addLabel(labels.HTTP_RESPONSE_CODE_LABEL_KEY, res.statusCode);
+        rootSpan.endSpan();
         return returned;
       };
 
