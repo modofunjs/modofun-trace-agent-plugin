@@ -1,11 +1,9 @@
-# mod:o:fun plugin for Google Cloud Stackdriver Trace
-
-**_Warning: This is a first beta version of the plugin for testing purposes!_**
+# mod:o:fun plugin for Google Stackdriver Trace
 
 [![Build Status](https://travis-ci.org/fptavares/modofun-trace-agent-plugin.svg?branch=master)](https://travis-ci.org/fptavares/modofun-trace-agent-plugin)
 [![npm](https://img.shields.io/npm/v/modofun-trace-agent-plugin.svg)](https://www.npmjs.com/package/modofun-trace-agent-plugin)
 
-A plugin for the Google Cloud Stackdriver Trace agent to enable tracing of requests handled by [modofun](https://github.com/fptavares/modofun).
+A plugin for the Google Stackdriver Trace agent to enable tracing of requests handled by [modofun](https://github.com/fptavares/modofun).
 
 Just add the following to the top of your Google Cloud Function:
 
@@ -15,7 +13,7 @@ require('@google-cloud/trace-agent').start({
   });
 ```
 
-This will enable tracing of all requests on Google Cloud Stackdriver Trace.
+This will enable tracing of all requests on Stackdriver Trace.
 
 ## Installation
 
