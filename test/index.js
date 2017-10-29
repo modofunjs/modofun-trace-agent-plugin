@@ -4,7 +4,7 @@ const plugin = require('../index');
 
 const originalMofodun = require('modofun');
 
-function applyPlugin(onPluginMiddleware) {
+function applyPlugin(onPluginMiddleware, hasRootSpan=true) {
   return plugin[0].intercept(originalMofodun, {
     constants: {
       TRACE_CONTEXT_HEADER_NAME: 'TRACE_CONTEXT_HEADER_NAME'
@@ -12,12 +12,12 @@ function applyPlugin(onPluginMiddleware) {
     labels: {},
     runInRootSpan: (options, callback) => {
       onPluginMiddleware && onPluginMiddleware();
-      callback({
+      callback(hasRootSpan && {
         addLabel: () => {},
         endSpan: () => {}
       });
     },
-    getResponseTraceContext: () => {},
+    getResponseTraceContext: () => 'ResponseTraceContext',
     wrapEmitter: () => {}
   });
 }
@@ -26,6 +26,9 @@ function createRequest(url) {
   const request = httpMocks.createRequest({ method: 'GET', url });
   request.connection = {
     remoteAddress: 'remoteAddress'
+  };
+  request.route = {
+    path: 'path'
   };
   return request;
 }
@@ -49,14 +52,16 @@ describe('Module wrapper', function() {
 
   function testArityMethod() {
     return function(done) {
-      const request = createRequest('/test/123');
+      const request = createRequest('/test');
       const response = httpMocks.createResponse();
 
-      modofun.gcloud({
-        test: (param) => done()
-      }, {
-        moddleware: [ modofun.arity(1) ],
-        errorHandler: done
+      modofun.gcloud({ test: () => done(new Error('Should not run!')) }, {
+        middleware: [ modofun.arity(1) ],
+        errorHandler: err => {
+          expect(err).to.be.an('error');
+          done();
+        },
+        mode: 'reqres'
       })(request, response);
     };
   }
@@ -102,4 +107,18 @@ describe('Middleware', function() {
   it('should support middleware array instead of options', testOptions(2, [ mwIncr ], 1));
   it('should support options but no middleware', testOptions(3, { type: 'gcloud' }, 0));
   it('should support options with middleware', testOptions(4, { middleware: [ mwIncr ] }, 1));
+
+
+  function testNoRootSpan() {
+    const modofun = applyPlugin(undefined, false);
+
+    return function(done) {
+      const request = createRequest('/test');
+      const response = httpMocks.createResponse();
+
+      modofun.gcloud({ test: () => done() })(request, response);
+    };
+  }
+
+  it('should skip when no root span is found', testNoRootSpan());
 });
