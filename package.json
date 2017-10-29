@@ -26,9 +26,17 @@
     "index.js"
   ],
   "scripts": {
-    "test": "eslint index.js"
+    "lint": "eslint index.js",
+    "test": "nyc --reporter=html --reporter=text mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
-    "eslint": "^4.9.0"
+    "chai": "^4.1.2",
+    "coveralls": "^3.0.0",
+    "eslint": "^4.9.0",
+    "mocha": "^4.0.1",
+    "modofun": "^0.4.3",
+    "node-mocks-http": "^1.6.6",
+    "nyc": "^11.2.1"
   }
 }
