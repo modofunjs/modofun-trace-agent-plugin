@@ -3,7 +3,7 @@
  * Copyright (c) 2017 Filipe Tavares
  * MIT Licensed
  */
-var SUPPORTED_VERSIONS = '0.x';
+var SUPPORTED_VERSIONS = '<2.0.0';
 
 function createMiddleware(api) {
   var labels = api.labels;
