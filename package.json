@@ -1,7 +1,7 @@
 {
   "name": "modofun-trace-agent-plugin",
   "description": "Modofun plugin for the Google Stackdriver Trace agent",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "author": "Filipe Tavares",
   "license": "MIT",
   "repository": "fptavares/modofun-trace-agent-plugin",
@@ -35,7 +35,7 @@
     "coveralls": "^3.0.0",
     "eslint": "^4.9.0",
     "mocha": "^4.0.1",
-    "modofun": "^0.4.3",
+    "modofun": "^1.0.0",
     "node-mocks-http": "^1.6.6",
     "nyc": "^11.2.1"
   }
