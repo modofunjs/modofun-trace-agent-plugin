@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "author": "Filipe Tavares",
   "license": "MIT",
-  "repository": "fptavares/modofun-trace-agent-plugin",
-  "homepage": "https://github.com/fptavares/modofun-trace-agent-plugin",
+  "repository": "modofunjs/modofun-trace-agent-plugin",
+  "homepage": "https://github.com/modofunjs/modofun-trace-agent-plugin",
   "keywords": [
     "serverless",
     "microservices",
