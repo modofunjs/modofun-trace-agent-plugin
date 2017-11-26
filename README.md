@@ -18,11 +18,13 @@ This will enable tracing of all requests on Stackdriver Trace.
 
 ## Installation
 
+You can install it using [npm](https://www.npmjs.com):
+
 ```bash
 $ npm install modofun-trace-agent-plugin
 ```
 
-Or
+Or [yarn](https://yarnpkg.com):
 
 ```bash
 $ yarn add modofun-trace-agent-plugin
